@@ -4,10 +4,10 @@
 // =============================================================================
 
 // call the packages we need
-var express = require('express');        // call express
-var app = express();                 // define our app using express
+var express = require('express');
+var app = express();
 var bodyParser = require('body-parser');
-var Bear = require('./app/models/bear');
+var Book = require('./app/models/book');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -18,7 +18,7 @@ var port = process.env.PORT || 2302;        // set our port
 
 var mongoose = require('mongoose');
 // mongoose.connect('mongodb://quaan24:quaan24@ds033126.mlab.com:33126/quas-test'); // connect to our databas
-mongoose.connect('mongodb://node:node@novus.modulusmongo.net:27017/Iganiq8o');
+mongoose.connect('mongodb://localhost/db')
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -27,11 +27,11 @@ var router = express.Router();              // get an instance of the express Ro
 // middleware to use for all requests
 router.use(function (req, res, next) {
     // do logging
-    console.log('Something is happening.');
+    console.log('Something is being invoked');
     next(); // make sure we go to the next routes and don't stop here
 });
 
-router.all('/', function(req, res, next){
+router.all('/', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
@@ -39,30 +39,27 @@ router.all('/', function(req, res, next){
 
 // test route to make sure everything is working (accessed at GET http://localhost:2302/api)
 router.get('/', function (req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
+    res.json({ message: 'Quas, Wex, Exort ...' });
 });
 
-// on routes that end in /bears
+// on routes that end in /books
 // ----------------------------------------------------
-router.route('/bears')
+router.route('/books')
 
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
     .post(function (req, res) {
 
-        var bear = new Bear();      // create a new instance of the Bear model
-        bear.name = req.body.name;  // set the bears name (comes from the request)
+        var book = new Book();
+        book.name = req.body.name;
 
-        // save the bear and check for errors
-        bear.save(function (err) {
+        // save the book and check for errors
+        book.save(function (err) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Bear created!' });
+            res.json({ message: 'Book added!' });
         });
 
     });
-
-// more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
@@ -72,10 +69,3 @@ app.use('/api', router);
 // =============================================================================
 app.listen(port);
 console.log('Magic happens on port ' + port);
-
-// {
-//     name: "asd",
-//     edition: "1.2",
-//     author: "123",
-//     publisher: "123",
-// }
