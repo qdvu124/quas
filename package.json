@@ -13,8 +13,6 @@
         "body-parser": "~1.0.1",
         "swagger-express-mw": "^0.1.0",
         "minimist": "^0.1.0",
-        "require-dir": "^0.3.0",
-        "change-case": "^3.0.0",
         "dotenv": "^2.0.0",
         "nconf": "^0.8.4"
     },
