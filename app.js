@@ -27,22 +27,9 @@ var mongoose = require('mongoose');
 // mongoose.connect('mongodb://quaan24:quaan24@ds033126.mlab.com:33126/quas-test'); // connect to our database
 mongoose.connect('mongodb://localhost/db');
 
-
-
-// // MIDDLEWARES
-// // =============================================================================
-// router.all('/', function (req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//     next();
-// })
-
 // ROUTES FOR OUR API
 // =============================================================================
-router.route('/docs')
-    .get(function (req, res) {
-        res.sendFile(__dirname + '/public/swagger-ui.html');
-    });
+
 
 SwaggerExpress.create({
     appRoot: __dirname
