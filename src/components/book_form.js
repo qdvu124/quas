@@ -2,7 +2,7 @@ import React from 'react';
 require('isomorphic-fetch');
 import * as api from '../constants/API'
 
-class BookForm extends React.Component {
+export default class BookForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +13,9 @@ class BookForm extends React.Component {
             author: '',
             publisher: '',
         }
+        this.handleButtonClick = this.handleButtonClick.bind(this);
     }
+
     render () {
         return (
             <div className="form">
@@ -22,41 +24,36 @@ class BookForm extends React.Component {
                     Edition: <input onChange={event => this.setState({ edition : event.target.value })} /> <br />
                     Author: <input onChange={event => this.setState({ author : event.target.value })} /> <br />
                     Publisher: <input onChange={event => this.setState({ publisher : event.target.value })} /> <br />
-                    <button onClick={this.handleButtonClick}>Button </button>
+                    <div>{this.state.name} </div>
+                    <div>{this.state.edition} </div>
+                    <div>{this.state.author} </div>
+                    <div>{this.state.publisher} </div>
+                    <button type='button' onClick={this.handleButtonClick} > Button Here </button>
                 </form>
             </div>
         );
     }
 
-    postBody(){
+    postBody () {
         return {
-            Name: this.state.name,
-            Edition: this.state.edition,
-            Author: this.state.author,
-            Publisher: this.state.publisher,
+            name: this.state.name,
+            edition: this.state.edition,
+            author: this.state.author,
+            publisher: this.state.publisher,
         };
     }
 
     handleButtonClick() {
-        fetch(api.API,{
-            method: 'POST',
-            header: {
-                Authorization: '',
-            },
-            body: this.postBody(),
+        fetch(api.API, {
+            method: 'post',
+            body: JSON.stringify(this.postBody()),
             })
             .then( response =>  {
                 console.log(response);
-
                 if (response.status >= 400) {
-                    throw new Error("Bad response from server");
+                    //throw new Error("Bad response from server");
                 }
                 return response.json();
-            }).then( message => {
-                console.log(message);
-            });
-
-    }
+            })
+        }
 }
-
-export default BookForm;

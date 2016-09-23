@@ -14,17 +14,20 @@ class BookList extends React.Component {
     }
 
     fetchBooks() {
-            fetch(api.API)
+            fetch(`${api.API}/57e5802ec395465743000002`, {
+                headers: {
+                    Authorization: '',
+                }
+            })
             .then( response =>  {
                 console.log(response);
-
                 if (response.status >= 400) {
                     throw new Error("Bad response from server");
                 }
                 return response.json();
-            }).then( message => {
-                console.log(message);
-                this.setState({list: message.message});
+            }).then( book => {
+                console.log(book);
+                this.setState({list: book.name});
             });
         }
 
