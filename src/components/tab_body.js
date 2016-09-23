@@ -9,7 +9,6 @@ class TabBody extends React.Component {
         if(this.props.currentTab === 'list')
             return this.renderList();
         return this.renderPost();
-        
     }
 
     renderList () {

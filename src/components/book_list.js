@@ -1,4 +1,5 @@
 import React from 'react';
+import * as api from '../constants/API'
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
@@ -13,7 +14,7 @@ class BookList extends React.Component {
     }
 
     fetchBooks() {
-            fetch('//localhost:2302/api/')
+            fetch(api.API)
             .then( response =>  {
                 console.log(response);
 
