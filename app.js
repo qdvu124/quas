@@ -2,18 +2,16 @@
 
 // CONFIG
 // =============================================================================
-var SwaggerExpress = require('swagger-express-mw');
 var express = require('express');
 var app = express();
-var router = express.Router();
 var bodyParser = require('body-parser');
 var config = require('nconf');
 var router = require('./api/controllers');
 
 require('dotenv').load();
-config.use('memory');
-config.argv();
-config.env();
+config.use('memory')
+    .argv()
+    .env();
 
 app.use(express.static('public'));
 // configure app to use bodyParser() => allow get the data from a POST
@@ -27,18 +25,18 @@ var mongoose = require('mongoose');
 // mongoose.connect('mongodb://quaan24:quaan24@ds033126.mlab.com:33126/quas-test'); // connect to our database
 mongoose.connect('mongodb://localhost/db');
 
-// ROUTES FOR OUR API
+// RUN APP
 // =============================================================================
 
-
-SwaggerExpress.create({
-    appRoot: __dirname
-}, function (err, swaggerExpress) {
-    if (err) {
-        throw err;
-    }
-    swaggerExpress.register(app);
-    app.listen(config.get('NODE_PORT'));
+var SwaggerExpress = require('swagger-express-mw');
+var SwaggerUi = require('swagger-tools/middleware/swagger-ui');
+SwaggerExpress.create({ appRoot: __dirname }, function(err, swaggerExpress) {
+  if (err) { throw err; }
+  // Add swagger-ui (This must be before swaggerExpress.register)
+  app.use(SwaggerUi(swaggerExpress.runner.swagger, { apiDocs: '/api/api-docs', swaggerUi: '/api/docs' }));
+  // Install middleware
+  swaggerExpress.register(app);
 });
 
+app.listen(config.get('NODE_PORT'));
 module.exports = app;
