@@ -20,7 +20,7 @@ produces:
 paths:
   /books:
     # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
+    x-swagger-router-controller: books
     get:
       tags: ['Books']
       description: Returns 'Hello' to the caller
@@ -96,8 +96,11 @@ definitions:
   HelloWorldResponse:
     required:
       - message
+      - name
     properties:
       message:
+        type: string
+      name:
         type: string
   ErrorResponse:
     required:
