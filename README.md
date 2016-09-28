@@ -1,1 +1,2 @@
-# Skeleton project for Swagger
+# Web Service for QUAS
+
